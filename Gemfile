@@ -43,3 +43,7 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'devise'
+gem 'devise_ldap_authenticatable'
+gem 'mixpanel-ruby'

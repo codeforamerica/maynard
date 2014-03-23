@@ -1,10 +1,11 @@
 class QuestionsController < ApplicationController
+  before_action :set_project, only: [:index, :new, :update, :create, :show, :edit, :destroy]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all
+    @questions = @project.questions.all
   end
 
   # GET /questions/1
@@ -28,7 +29,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to @question, notice: 'Question was successfully created.' }
+        format.html { redirect_to project_question_url(@project, @question), notice: 'Question was successfully created.' }
         format.json { render action: 'show', status: :created, location: @question }
       else
         format.html { render action: 'new' }
@@ -56,12 +57,16 @@ class QuestionsController < ApplicationController
   def destroy
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_url }
+      format.html { redirect_to project_questions_url(@project) }
       format.json { head :no_content }
     end
   end
 
   private
+    def set_project
+      @project = Project.find(params[:project_id])
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_question
       @question = Question.find(params[:id])

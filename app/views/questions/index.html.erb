@@ -1,10 +1,11 @@
-<h1>Listing questions</h1>
+<div class="page-header">
+  <h1>Questions <small>Project #<%= @project.project_number %></small></h1>
+</div>
 
-<table>
+<table class="table table-striped table-hover">
   <thead>
     <tr>
-      <th>Body</th>
-      <th>Project</th>
+      <th>Question</th>
       <th>User</th>
       <th></th>
       <th></th>
@@ -16,16 +17,15 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= question.body %></td>
-        <td><%= question.project_id %></td>
         <td><%= question.user_id %></td>
-        <td><%= link_to 'Show', question %></td>
-        <td><%= link_to 'Edit', edit_question_path(question) %></td>
-        <td><%= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [@project, question] %></td>
+        <td><%= link_to 'Edit', edit_project_question_path(@project, question) %></td>
+        <td><%= link_to 'Destroy', [@project, question], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Question', new_question_path %>
+<%= link_to "Back to project", @project %> | 
+<%= link_to 'New Question', new_project_question_path(@project) %>
