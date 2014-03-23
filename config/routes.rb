@@ -1,7 +1,10 @@
 Supply::Application.routes.draw do
-  resources :questions
+  devise_for :users
+  resources :companies
 
-  resources :projects
+  resources :projects do
+    resources :questions
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
