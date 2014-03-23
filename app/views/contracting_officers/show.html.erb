@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @contracting_officer.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @contracting_officer.last_name %>
+</p>
+
+<p>
+  <strong>Email address:</strong>
+  <%= @contracting_officer.email_address %>
+</p>
+
+<%= link_to 'Edit', edit_contracting_officer_path(@contracting_officer) %> |
+<%= link_to 'Back', contracting_officers_path %>

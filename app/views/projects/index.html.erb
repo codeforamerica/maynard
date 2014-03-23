@@ -25,7 +25,7 @@
       <tr>
         <td><%= link_to(project.project_number, project) %></td>
         <td><%= truncate(project.name, length: 45) %></td>
-        <td><%= link_to(project.contracting_officer, "mailto:#{ project.contracting_officer_email }") %></td>
+        <td><%= project.contracting_officer.name if project.contracting_officer %></td>
         <td style="text-align: center;"><%= link_to(project.questions.count, project_questions_url(project)) %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
         <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>

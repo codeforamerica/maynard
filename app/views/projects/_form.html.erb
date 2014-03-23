@@ -28,15 +28,10 @@
 
     <div class="row">
       <div class="col-md-6">
-        <%= f.label :contracting_officer %><br />
-        <%= f.text_field :contracting_officer, class: "form-control", placeholder: "Who is the contracting officer?" %><br />
+          <%= f.label :contracting_officer %><br />
+          <%= f.collection_select(:contracting_officer_id, ContractingOfficer.order('contracting_officers.last_name ASC').all, :id, :name) %>
       </div>
-
-      <div class="col-md-6">
-        <%= f.label :contracting_officer_email %><br />
-        <%= f.text_field :contracting_officer_email, class: "form-control", placeholder: "What is the contracting officer's email?" %><br />
-      </div>
-    </div>
+    </div><br />
 
     <div class="row">
       <div class="col-md-3">

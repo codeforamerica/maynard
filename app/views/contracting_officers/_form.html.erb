@@ -1,0 +1,36 @@
+<%= form_for(@contracting_officer, html: { role: "form" }) do |f| %>
+  <% if @contracting_officer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contracting_officer.errors.count, "error") %> prohibited this contracting_officer from being saved:</h2>
+
+      <ul>
+      <% @contracting_officer.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-3">
+        <%= f.label :first_name %><br>
+        <%= f.text_field :first_name, class: "form-control" %>
+      </div>
+      <div class="col-md-3">
+        <%= f.label :last_name %><br />
+        <%= f.text_field :last_name, class: "form-control" %>
+      </div>
+    </div><br />
+
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.label :email_address %><br>
+        <%= f.text_field :email_address, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

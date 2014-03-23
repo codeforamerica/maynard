@@ -16,10 +16,12 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
+    @project.contracting_officer = ContractingOfficer.new
   end
 
   # GET /projects/1/edit
   def edit
+    @project.contracting_officer = ContractingOfficer.new unless @project.contracting_officer
   end
 
   # POST /projects
@@ -29,6 +31,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        @mixpanel.track('1', 'project-created')
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
         format.json { render action: 'show', status: :created, location: @project }
       else
@@ -42,9 +45,9 @@ class ProjectsController < ApplicationController
   # PATCH/PUT /projects/1.json
   def update
     respond_to do |format|
-      if @project.update(project_params)
-        @mixpanel.track('1', 'project-created')
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+      if @project.update_attributes(project_params)
+        @mixpanel.track('1', 'project-updated')
+        format.html { redirect_to projects_url, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -71,6 +74,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:project_number, :name, :contracting_officer, :contracting_officer_email)
+      params.require(:project).permit(:project_number, :name, :contracting_officer_id, contracting_officer_attributes: [:id])
     end
 end

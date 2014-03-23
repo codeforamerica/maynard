@@ -1,0 +1,38 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1>Contracting officers</h1>
+    <br />
+    <p>
+      <%= link_to 'Add a contracting officer', new_contracting_officer_path, { role: "button", class: "btn btn-success" } %><br />
+    </p>
+  </div>
+</div>
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email address</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contracting_officers.each do |contracting_officer| %>
+      <tr>
+        <td><%= contracting_officer.first_name %></td>
+        <td><%= contracting_officer.last_name %></td>
+        <td><%= contracting_officer.email_address %></td>
+        <td><%= link_to 'Show', contracting_officer %></td>
+        <td><%= link_to 'Edit', edit_contracting_officer_path(contracting_officer) %></td>
+        <td><%= link_to 'Destroy', contracting_officer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Contracting officer', new_contracting_officer_path %>
