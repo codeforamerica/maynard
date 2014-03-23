@@ -1,4 +1,6 @@
 Supply::Application.routes.draw do
+  resources :contracting_officers
+
   devise_for :users
   resources :companies
 
