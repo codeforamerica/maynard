@@ -12,9 +12,9 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body style="width: 800px; margin: 0 auto;">
+  <%= yield %>
 
-<%= yield %>
-
+  <br />
 </body>
 </html>

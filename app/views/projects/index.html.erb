@@ -1,7 +1,7 @@
 <h1>Projects</h1>
 
 <p>
-  <%= link_to 'New Project', new_project_path, { role: "button", class: "btn btn-success" } %><br />
+  <%= link_to 'Add a new project', new_project_path, { role: "button", class: "btn btn-success" } %><br />
 </p>
 <table class="table table-striped table-hover">
   <thead>
@@ -18,7 +18,7 @@
     <% @projects.each do |project| %>
       <tr>
         <td><%= link_to(project.project_number, project) %></td>
-        <td><%= truncate(project.name, length: 60) %></td>
+        <td><%= truncate(project.name, length: 45) %></td>
         <td><%= link_to(project.contracting_officer, "mailto:#{ project.contracting_officer_email }") %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
         <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -29,4 +29,4 @@
 
 <br>
 
-<%= link_to 'New Project', new_project_path, { role: "button", class: "btn btn-success" } %><br />
+<%= link_to 'Add a new project', new_project_path, { role: "button", class: "btn btn-success" } %><br />
