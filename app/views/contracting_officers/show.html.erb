@@ -1,19 +1,14 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>First name:</strong>
-  <%= @contracting_officer.first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @contracting_officer.last_name %>
-</p>
-
-<p>
-  <strong>Email address:</strong>
-  <%= @contracting_officer.email_address %>
-</p>
+<div class="jumbotron">
+  <div class="container">
+    <h1><%= @contracting_officer.name %></h1>
+    <br />
+    <p>
+      <%= link_to 'Add a new project', new_project_path, { role: "button", class: "btn btn-success" } %><br />
+    </p>
+  </div>
+</div>
 
 <table class="table table-striped table-hover">
   <thead>
