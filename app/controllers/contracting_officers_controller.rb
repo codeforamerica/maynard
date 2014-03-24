@@ -4,7 +4,7 @@ class ContractingOfficersController < ApplicationController
   # GET /contracting_officers
   # GET /contracting_officers.json
   def index
-    @contracting_officers = ContractingOfficer.all
+    @contracting_officers = ContractingOfficer.order('contracting_officers.last_name ASC').all
   end
 
   # GET /contracting_officers/1
