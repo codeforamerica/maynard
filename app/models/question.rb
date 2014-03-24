@@ -1,3 +1,5 @@
 class Question < ActiveRecord::Base
-  belongs_to :project
+  has_many :answers
+
+  belongs_to :project, counter_cache: true
 end

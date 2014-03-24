@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Question</th>
-      <th>User</th>
+      <th style="text-align: center;">Responses</th>
       <th></th>
       <th></th>
       <th></th>
@@ -17,7 +17,7 @@
     <% @questions.each do |question| %>
       <tr>
         <td><%= question.body %></td>
-        <td><%= question.user_id %></td>
+        <td style="text-align: center;"><%= question.answers.count %></td>
         <td><%= link_to 'Show', [@project, question] %></td>
         <td><%= link_to 'Edit', edit_project_question_path(@project, question) %></td>
         <td><%= link_to 'Destroy', [@project, question], method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -27,5 +27,5 @@
 </table>
 
 <br>
-<%= link_to "Back to project", @project %> | 
+<%= link_to "Back to project", @project %> |
 <%= link_to 'New Question', new_project_question_path(@project) %>

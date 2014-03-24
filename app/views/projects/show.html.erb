@@ -1,9 +1,44 @@
 <p id="notice"><%= notice %></p>
 
+<div class="jumbotron">
+  <div class="container">
+    <h1><%= @project.project_number %></h1>
+    <br />
+    <p>
+      <%= link_to 'Add a new project', new_project_path, { role: "button", class: "btn btn-success" } %><br />
+    </p>
+  </div>
+</div>
+
 <p>
   <strong>Project number:</strong>
   <%= @project.project_number %>
 </p>
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<%= link_to "Ask a new question", new_project_question_path(@project), class: "btn btn-success" %><br />
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Body</th>
+      <th style="text-align: center;">Responses</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td><%= question.body %></td>
+        <td style="text-align: center;"><%= link_to(question.answers.size, project_questions_url(@project)) %></td>
+        <td><%= link_to 'Edit', edit_project_question_path(@project, question) %></td>
+        <td><%= link_to 'Destroy', [@project, question], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%= link_to 'Edit this project', edit_project_path(@project) %> |
+<%= link_to 'All projects', projects_path %>

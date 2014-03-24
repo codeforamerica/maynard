@@ -2,8 +2,6 @@ Supply::Application.routes.draw do
   resources :contracting_officers
 
   devise_for :users
-  resources :companies
-
   resources :projects do
     resources :questions
   end

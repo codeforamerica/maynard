@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = @project.questions.all
+    @questions = @project.questions.load
   end
 
   # GET /questions/1
@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
 
   # GET /questions/new
   def new
-    @question = Question.new
+    @question = @project.questions.build
   end
 
   # GET /questions/1/edit

@@ -4,13 +4,14 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = Project.includes(:contracting_officer)
     @mixpanel.track('1', 'load-all-projects')
   end
 
   # GET /projects/1
   # GET /projects/1.json
   def show
+    @questions = @project.questions.load
   end
 
   # GET /projects/new
