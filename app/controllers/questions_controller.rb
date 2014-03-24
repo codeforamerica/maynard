@@ -29,6 +29,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
+        @mixpanel.track('1', 'question-added')
         format.html { redirect_to project_question_url(@project, @question), notice: 'Question was successfully created.' }
         format.json { render action: 'show', status: :created, location: @question }
       else
@@ -43,6 +44,7 @@ class QuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @question.update(question_params)
+        @mixpanel.track('1', 'question-updated')
         format.html { redirect_to @question, notice: 'Question was successfully updated.' }
         format.json { head :no_content }
       else
