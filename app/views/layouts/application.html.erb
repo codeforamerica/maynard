@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Supply</title>
   <!-- Latest compiled and minified CSS -->
@@ -16,14 +16,16 @@
 for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
 mixpanel.init("dc4c7411c5cb59162057c36558bb0ce1");</script><!-- end Mixpanel -->
 </head>
-<body style="width: 900px; margin: 0 auto;">
-  <%= yield %>
+<body>
+  <div class="container">
+    <%= yield %>
 
-  <% cache "date-footer-#{ Time.now.year }" do %>
-    <p style="text-align: center;">
-      <br />&copy; <%= Time.now.year %>.<br />
-    </p>
-  <% end %>
+    <% cache "date-footer-#{ Time.now.year }" do %>
+      <p style="text-align: center;">
+        <br />&copy; <%= Time.now.year %>.<br />
+      </p>
+    <% end %>
+  </div>
   <br />
 </body>
 </html>
