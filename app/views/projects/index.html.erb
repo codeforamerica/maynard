@@ -13,8 +13,8 @@
     <tr>
       <th>Number</th>
       <th>Name</th>
-      <th>Contracting Officer</th>
-      <th>Questions</th>
+      <th style="text-align: center;">Contracting Officer</th>
+      <th style="text-align: center;">Questions</th>
       <th></th>
       <th></th>
     </tr>
@@ -25,7 +25,7 @@
       <tr>
         <td><%= link_to(project.project_number, project) %></td>
         <td><%= truncate(project.name, length: 45) %></td>
-        <td><%= link_to(project.contracting_officer.name, project.contracting_officer) if project.contracting_officer %></td>
+        <td style="text-align: center;"><%= link_to(project.contracting_officer.name, project.contracting_officer) if project.contracting_officer %></td>
         <td style="text-align: center;"><%= link_to(project.questions.size, project_questions_url(project)) %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
         <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
