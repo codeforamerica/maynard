@@ -10,6 +10,7 @@ class ContractingOfficersController < ApplicationController
   # GET /contracting_officers/1
   # GET /contracting_officers/1.json
   def show
+    @projects = @contracting_officer.projects.load
   end
 
   # GET /contracting_officers/new

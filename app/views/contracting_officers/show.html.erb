@@ -15,5 +15,29 @@
   <%= @contracting_officer.email_address %>
 </p>
 
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Name</th>
+      <th style="text-align: center;">Questions</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= link_to(project.project_number, project) %></td>
+        <td><%= truncate(project.name, length: 45) %></td>
+        <td style="text-align: center;"><%= link_to(project.questions.size, project_questions_url(project)) %></td>
+        <td><%= link_to 'Edit', edit_project_path(project) %></td>
+        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to 'Edit', edit_contracting_officer_path(@contracting_officer) %> |
 <%= link_to 'Back', contracting_officers_path %>
