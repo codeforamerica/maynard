@@ -1,3 +1,10 @@
+<script type="text/javascript">
+  var closeDate = "";
+  jQuery(function($) {
+    $("#project_closing_date").datepicker();
+    $("#project_question_closing_date").datepicker();
+  });
+</script>
 <%= form_for(@project, html: { role: "form" }) do |f| %>
   <% if @project.errors.any? %>
     <div id="error_explanation">
@@ -34,8 +41,13 @@
     </div><br />
 
     <div class="row">
-      <div class="col-md-3">
-        <%= f.label :closing_date %>
+      <div class="col-md-2">
+        <%= f.label :closing_date, "Project closing date" %>
+        <%= f.text_field :closing_date, class: "form-control" %>
+      </div>
+      <div class="col-md-2">
+        <%= f.label :question_closing_date, "Question closing date" %>
+        <%= f.text_field :question_closing_date, class: "form-control" %>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     @projects = Project.includes(:contracting_officer)
-    @mixpanel.track('1', 'load-all-projects')
+    #@mixpanel.track('1', 'load-all-projects')
   end
 
   # GET /projects/1
@@ -75,6 +75,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:project_number, :name, :contracting_officer_id, contracting_officer_attributes: [:id])
+      params.require(:project).permit(:project_number, :name, :closing_date, :question_closing_date, :contracting_officer_id, contracting_officer_attributes: [:id])
     end
 end
