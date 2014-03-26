@@ -5,7 +5,10 @@ class Project < ActiveRecord::Base
 
   validates :project_number, presence: true
   validates :name, presence: true
-  
+
+  validates :closing_date, presence: true
+  validates :question_closing_date, presence: true
+
   validates_uniqueness_of :project_number
 
   accepts_nested_attributes_for :contracting_officer
