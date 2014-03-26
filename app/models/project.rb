@@ -3,11 +3,11 @@ class Project < ActiveRecord::Base
 
   belongs_to :contracting_officer, counter_cache: true
 
-  validates :project_number, presence: true
-  validates :name, presence: true
+  validates :project_number, presence: { message: "must be provided." }
+  validates :name, presence: true, presence: { message: "must be provided." }
 
-  validates :closing_date, presence: true
-  validates :question_closing_date, presence: true
+  validates :closing_date, presence: { message: "must be provided." }
+  validates :question_closing_date, presence: { message: "must be provided." }
 
   validates_uniqueness_of :project_number
 
@@ -20,11 +20,11 @@ class Project < ActiveRecord::Base
   DATE_FORMAT = "%m/%d/%Y"
 
   def closing_date=(date)
-    write_attribute(:closing_date, DateTime.strptime(date, DATE_FORMAT))
+    write_attribute(:closing_date, DateTime.strptime(date, DATE_FORMAT)) unless date.blank?
   end
 
   def question_closing_date=(date)
-    write_attribute(:question_closing_date, DateTime.strptime(date, DATE_FORMAT))
+    write_attribute(:question_closing_date, DateTime.strptime(date, DATE_FORMAT)) unless date.blank?
   end
 
   private
