@@ -9,6 +9,8 @@ class Project < ActiveRecord::Base
   validates :closing_date, presence: { message: "must be provided." }
   validates :question_closing_date, presence: { message: "must be provided." }
 
+  validate :question_closing_date_before_closing_date
+
   validates_uniqueness_of :project_number
 
   accepts_nested_attributes_for :contracting_officer
@@ -25,6 +27,10 @@ class Project < ActiveRecord::Base
 
   def question_closing_date=(date)
     write_attribute(:question_closing_date, DateTime.strptime(date, DATE_FORMAT)) unless date.blank?
+  end
+
+  def question_closing_date_before_closing_date
+    errors.add(:base, "Question closing date should be before project closing date.") unless question_closing_date.to_i < closing_date.to_i # Unix timetsamps only!
   end
 
   private

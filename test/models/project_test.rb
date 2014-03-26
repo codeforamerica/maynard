@@ -36,4 +36,10 @@ class ProjectTest < ActiveSupport::TestCase
     assert !project.valid?, "Saved project without closing date."
     assert_equal "must be provided.", project.errors[:closing_date][0]
   end
+
+  test "question closing date should not be after project closing date" do
+    project = Project.create(name: "Super Excellent Project", project_number: "0000-XL", question_closing_date: "05/25/2019", closing_date: "05/15/2019")
+    assert !project.valid?, "Question closing date is after project closing date."
+    assert_equal "Question closing date should be before project closing date.", project.errors[:base][0]
+  end
 end
