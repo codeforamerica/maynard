@@ -7,6 +7,10 @@ class Project < ActiveRecord::Base
 
   accepts_nested_attributes_for :contracting_officer
 
+  attr_readonly :mail_hash
+
+  before_create :generate_mail_hash
+
   DATE_FORMAT = "%m/%d/%Y"
 
   def closing_date=(date)
@@ -15,5 +19,10 @@ class Project < ActiveRecord::Base
 
   def question_closing_date=(date)
     write_attribute(:question_closing_date, DateTime.strptime(date, DATE_FORMAT))
+  end
+
+  private
+  def generate_mail_hash
+    self.mail_hash = SecureRandom.hex(8)
   end
 end
