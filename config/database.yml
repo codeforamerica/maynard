@@ -50,6 +50,7 @@ test:
   database: supply_test
   username: teamatl
   password: atlanta014
+  host: localhost
   port: 5432
 
 production:
@@ -58,4 +59,5 @@ production:
   database: supply_production
   username: teamatl
   password: atlanta014
+  host: localhost
   port: 5432
