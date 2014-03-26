@@ -33,6 +33,11 @@ class Project < ActiveRecord::Base
     errors.add(:base, "Question closing date should be before project closing date.") unless question_closing_date.to_i < closing_date.to_i # Unix timetsamps only!
   end
 
+  def inbound_email_address
+    head, tail = Postmark::Setup::INBOUND_EMAIL_ADDRESS.split('@')
+    "#{ head }+#{ mail_hash }@#{ tail }"
+  end
+
   private
   def generate_mail_hash
     self.mail_hash = SecureRandom.hex(8)

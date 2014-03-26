@@ -42,4 +42,9 @@ class ProjectTest < ActiveSupport::TestCase
     assert !project.valid?, "Question closing date is after project closing date."
     assert_equal "Question closing date should be before project closing date.", project.errors[:base][0]
   end
+
+  test "project should have an inbound email address" do
+    project = Project.create(name: "Super excellent email project", project_number: "90000-XL", question_closing_date: "03/29/2019", closing_date: "03/17/2019")
+    assert_equal "1953c84f635c00147e27d82abd52fdc6+#{ project.mail_hash }@inbound.postmarkapp.com", project.inbound_email_address
+  end
 end
