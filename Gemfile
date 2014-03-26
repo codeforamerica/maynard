@@ -47,3 +47,6 @@ end
 gem 'devise'
 gem 'devise_ldap_authenticatable'
 gem 'mixpanel-ruby'
+
+gem 'mail'
+gem 'postmark'
