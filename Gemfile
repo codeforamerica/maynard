@@ -50,3 +50,5 @@ gem 'mixpanel-ruby'
 
 gem 'mail'
 gem 'postmark'
+gem 'paperclip'
+gem 'aws-sdk'
