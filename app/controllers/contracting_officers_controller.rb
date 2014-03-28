@@ -4,7 +4,7 @@ class ContractingOfficersController < ApplicationController
   # GET /contracting_officers
   # GET /contracting_officers.json
   def index
-    @contracting_officers = ContractingOfficer.order('contracting_officers.last_name ASC').all
+    @contracting_officers = ContractingOfficer.order('contracting_officers.last_name ASC').paginate(page: params[:page], per_page: 10)
   end
 
   # GET /contracting_officers/1
