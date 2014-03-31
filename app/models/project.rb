@@ -20,6 +20,9 @@ class Project < ActiveRecord::Base
   before_create :generate_mail_hash
 
   DATE_FORMAT = "%m/%d/%Y"
+  TIME_DATE_FORMAT = '%m/%d/%Y @ %H:%M %p'
+  FULL_DATE_FORMAT = '%A, %B %e, %Y at %l:%M'
+  JSON_DATE_FORMAT = '%Y-%m-%dT%H:%M:%S%z'
 
   def closing_date=(date)
     write_attribute(:closing_date, DateTime.strptime(date, DATE_FORMAT)) unless date.blank?
@@ -36,6 +39,10 @@ class Project < ActiveRecord::Base
   def inbound_email_address
     head, tail = Postmark::Setup::INBOUND_EMAIL_ADDRESS.split('@')
     "#{ head }+#{ mail_hash }@#{ tail }"
+  end
+
+  def formatted_date(closing_date)
+    self.closing_date.strftime(TIME_DATE_FORMAT)
   end
 
   private
