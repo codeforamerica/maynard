@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.includes(:contracting_officer).paginate(page: params[:page], per_page: 10)
+    @projects = Project.includes(:contracting_officer).paginate(page: params[:page], per_page: 10).order('closing_date ASC')
     #@mixpanel.track('1', 'load-all-projects')
   end
 
