@@ -9,6 +9,7 @@
       <th style="text-align: center;">Responses</th>
       <th></th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -17,6 +18,7 @@
       <tr>
         <td><%= question.body %></td>
         <td style="text-align: center;"><%= question.answers.count %></td>
+        <td><%= link_to 'Respond', new_question_answer_path(question) %></td>
         <td><%= link_to 'Show', [@project, question] %></td>
         <td><%= link_to 'Remove', [@project, question], method: :delete, data: { confirm: 'Are you sure you want to remove this question?' } %></td>
       </tr>
@@ -25,7 +27,7 @@
 </table>
 
 <br>
-<%= link_to "Back to project", @project %> |
+<%= link_to "Project ##{ @project.project_number }", @project %> |
 <%= link_to 'Ask a new question', new_project_question_path(@project) %>  <br />
 
 <%= will_paginate @questions %>
