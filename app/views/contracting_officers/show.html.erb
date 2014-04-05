@@ -28,7 +28,7 @@
         <td><%= truncate(project.name, length: 45) %></td>
         <td style="text-align: center;"><%= link_to(project.questions.size, project_questions_url(project)) %></td>
         <td><%= link_to 'Edit', edit_project_path(project) %></td>
-        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Remove', project, method: :delete, data: { confirm: 'Are you sure you want to remove this project?' } %></td>
       </tr>
     <% end %>
   </tbody>
