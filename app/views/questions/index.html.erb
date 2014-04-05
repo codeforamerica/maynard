@@ -18,7 +18,7 @@
         <td><%= question.body %></td>
         <td style="text-align: center;"><%= question.answers.count %></td>
         <td><%= link_to 'Show', [@project, question] %></td>
-        <td><%= link_to 'Destroy', [@project, question], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Remove', [@project, question], method: :delete, data: { confirm: 'Are you sure you want to remove this question?' } %></td>
       </tr>
     <% end %>
   </tbody>
