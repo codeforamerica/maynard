@@ -1,5 +1,9 @@
 Supply::Application.routes.draw do
-  resources :plan_holders
+  resources :plan_holders do
+    collection do
+      post 'ui_update' => 'plan_holders#update_interface'
+    end
+  end
 
   resources :companies
 

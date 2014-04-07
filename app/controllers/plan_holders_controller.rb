@@ -33,6 +33,14 @@ class PlanHoldersController < ApplicationController
   def destroy
   end
 
+  def update_interface
+    @project = Project.find(params[:plan_holder][:project_id])
+
+    respond_to do |wants|
+      wants.json { render json: @project, status: :ok }
+    end
+  end
+
   private
   def planholders_params
     params.require(:plan_holder).permit(:project_id, company_attributes: [:name], user_attributes: [:email])

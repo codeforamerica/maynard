@@ -28,7 +28,7 @@
       or wait on an email updates from contracting officers for contracts you're interested in!
       <strong>What happens when you add your email address below?</strong>
       <ul>
-        <li>Immediately download the most up-to-date bidder's package</li>
+        <li>Immediately download the most up-to-date bidder's package for active opportunities</li>
         <li>Save time by not needing to email contracting officers to express interest in bidding</li>
         <li>Be in the know from addenda being automatically sent to your inbox</li>
       </ul>
@@ -51,11 +51,32 @@
       </div>
     </div><br />
   <% end %>
+  <script type="text/javascript">
+    jQuery(function($) {
+      $('#plan_holder_project_id').change(function() {
+        var jqxhr = $.post("<%= ui_update_plan_holders_url %>", $('#new_plan_holder').serialize())
+        .success(function(data) {
+          var project = data;
+          $('#project-info-well').fadeIn();
+          $('#project-info-project-number').html(project.project_number);
+          $('#project-info-project-name').html(project.name);
+        })
+        .error(function(data) { console.log("Not good."); });
+      });
+    });
+  </script>
   <div class="form-group">
     <div class="row">
       <div class="col-md-8">
         <%= f.label "Select a bid opportunity" %><br />
         <%= f.select(:project_id, Project.order('project_number ASC').pluck(:id, :name, :project_number).collect { |p| ["#{ p[2] } - #{ truncate(p[1], length: 30) }", p[0]] }, {}, { class: "form-control input-lg" }) %>
+      </div>
+    </div><br />
+    <div class="row" id="project-info-well" style="display: none;">
+      <div class="col-md-8">
+        <div class="well">
+          You chose <strong id="project-info-project-number"></strong> - <strong id="project-info-project-name"></strong>.
+        </div>
       </div>
     </div>
   </div><br />
