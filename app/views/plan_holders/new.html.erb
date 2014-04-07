@@ -54,22 +54,26 @@
   <script type="text/javascript">
     jQuery(function($) {
       $('#plan_holder_project_id').change(function() {
-        var jqxhr = $.post("<%= ui_update_plan_holders_url %>", $('#new_plan_holder').serialize())
-        .success(function(data) {
-          var project = data;
-          $('#project-info-well').fadeIn();
-          $('#project-info-project-number').html(project.project_number);
-          $('#project-info-project-name').html(project.name);
-        })
-        .error(function(data) { console.log("Not good."); });
+          if($(this).val() != "") {
+            var jqxhr = $.post("<%= ui_update_plan_holders_url %>", $('#new_plan_holder').serialize())
+            .success(function(data) {
+              var project = data;
+              $('#project-info-well').fadeIn();
+              $('#project-info-project-number').html(project.project_number);
+              $('#project-info-project-name').html(project.name);
+            })
+            .error(function(data) { console.log("Not good."); });
+          } else {
+            $('#project-info-well').fadeOut();
+          }
+        });
       });
-    });
   </script>
   <div class="form-group">
     <div class="row">
       <div class="col-md-8">
         <%= f.label "Select a bid opportunity" %><br />
-        <%= f.select(:project_id, Project.order('project_number ASC').pluck(:id, :name, :project_number).collect { |p| ["#{ p[2] } - #{ truncate(p[1], length: 30) }", p[0]] }, {}, { class: "form-control input-lg" }) %>
+        <%= f.select(:project_id, Project.order('project_number ASC').pluck(:id, :name, :project_number).collect { |p| ["#{ p[2] } - #{ truncate(p[1], length: 30) }", p[0]] }, { include_blank: true }, { class: "form-control input-lg" }) %>
       </div>
     </div><br />
     <div class="row" id="project-info-well" style="display: none;">
