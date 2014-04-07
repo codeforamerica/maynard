@@ -1,0 +1,70 @@
+<br /><br />
+
+<div class="row">
+  <div class="col-md-8">
+    <h2>Get updates automatically by joining the planholder's list!</h2>
+    <p>
+      You no longer need to email a contracting officer to get on the planholder's list
+      or wait on an email updates from contracting officers for contracts you're interested in!
+      <strong>What happens when you add your email address below?</strong>
+      <ul>
+        <li>Immediately download the most up-to-date bidder's package</li>
+        <li>Save time by not needing to email contracting officers to express interest in bidding</li>
+        <li>Be in the know from addenda being automatically sent to your inbox</li>
+      </ul>
+    </p>
+  </div>
+</div><br />
+
+<%= form_for @planholder, html: { role: 'form' } do |f| %>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-8">
+        <%= f.label "Select a project" %><br />
+        <%= f.select(:project_id, @projects.collect { |p| ["#{ p[2] } - #{ truncate(p[1], length: 30) }", p[0]] }, {}, { class: "form-control input-lg" }) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.fields_for :user, @planholder.user do |p| %>
+      <div class="row">
+        <div class="col-sm-4">
+          <%= f.label "What's your first name?" %>
+          <%= p.text_field :first_name, class: "form-control input-lg col-sm-4", placeholder: "Jane" %>
+        </div>
+        <div class="col-sm-4">
+          <%= f.label "What's your last name?" %>
+          <%= p.text_field :last_name, class: "form-control input-lg", placeholder: "Doe" %>
+        </div>
+      </div><br />
+
+      <div class="row">
+        <div class="col-md-8">
+          <%= p.label "What's your email address?" %>
+          <%= p.text_field :email, class: "form-control input-lg", placeholder: "janedoe@excellent-vendor.com" %>
+          <span class="help-block">Be sure to use an email address that you check often to ensure you receive all updates.</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.fields_for :company, @planholder.company do |c| %>
+          <%= c.label "Finally, what's the name of your company?" %><br />
+          <%= c.text_field :name, class: "form-control input-lg", placeholder: "ACME Widgets, Inc." %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-4">
+        <%= f.submit "Download the bidder's package & receive updates!", class: "btn-success btn" %>
+      </div>
+    </div>
+  </div>
+<% end %>

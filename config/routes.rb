@@ -1,4 +1,6 @@
 Supply::Application.routes.draw do
+  resources :plan_holders
+
   resources :companies
 
   resources :contracting_officers
@@ -6,7 +8,7 @@ Supply::Application.routes.draw do
   devise_for :users
   resources :projects do
     get 'planholders' => 'projects#planholders'
-    
+
     resources :questions
   end
 

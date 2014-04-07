@@ -6,6 +6,9 @@ class PlanHolder < ActiveRecord::Base
   delegate :first_name, :last_name, :email, to: :user
   delegate :name, to: :company
 
+  accepts_nested_attributes_for :company
+  accepts_nested_attributes_for :user
+
   class << self
     def to_csv(options = {})
       CSV.generate(options) do |csv|

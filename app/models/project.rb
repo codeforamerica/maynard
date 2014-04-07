@@ -45,6 +45,10 @@ class Project < ActiveRecord::Base
     self.closing_date.strftime(TIME_DATE_FORMAT)
   end
 
+  def name_with_project_number
+    "#{ self.project_number } - #{ self.name }" unless self.project_number.blank?
+  end
+
   private
   def generate_mail_hash
     self.mail_hash = SecureRandom.hex(8)
