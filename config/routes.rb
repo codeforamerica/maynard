@@ -1,8 +1,12 @@
 Supply::Application.routes.draw do
+  resources :companies
+
   resources :contracting_officers
 
   devise_for :users
   resources :projects do
+    get 'planholders' => 'projects#planholders'
+    
     resources :questions
   end
 

@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [:show, :edit, :update, :destroy, :planholders]
 
   # GET /projects
   # GET /projects.json
@@ -67,10 +67,20 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def planholders
+    @planholders = PlanHolder.where(project_id: params[:project_id]).order('created_at DESC')
+
+    respond_to do |wants|
+      wants.html
+      wants.json
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = Project.find(params[:id])
+      project_id = params[:id].nil? ? params[:project_id] : params[:id]
+      @project = Project.find(project_id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

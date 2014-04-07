@@ -1,0 +1,13 @@
+p = Axlsx::Package.new
+wb = p.workbook
+
+wb.add_worksheet(name: "Foobar") do |sheet|
+  sheet.add_row ['ID', 'Company', 'First name', 'Last name', 'Email']
+end
+
+temp = Tempfile.new("posts.xlsx")
+p.serialize temp.path
+
+p.use_shared_strings = true
+
+send_data temp.path, :filename => "posts.xlsx", :type => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
