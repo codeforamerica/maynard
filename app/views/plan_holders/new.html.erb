@@ -1,5 +1,23 @@
 <br /><br />
 
+<style type="text/css">
+  .bs-callout {
+    margin: 20px 0;
+    padding: 20px;
+    border-left: 3px solid #eee;
+  }
+
+  .bs-callout-info {
+    background-color: #f4f8fa;
+    border-color: #5bc0de;
+  }
+
+  .bs-callout-danger {
+    background-color: #fdf7f7;
+    border-color: #d9534f;
+  }
+</style>
+
 <div class="row">
   <div class="col-md-8">
     <div class="page-header">
@@ -19,6 +37,20 @@
 </div><br />
 
 <%= form_for @planholder, html: { role: 'form' } do |f| %>
+  <% if @planholder.errors.any? %>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="bs-callout bs-callout-danger">
+          <h3>Sorry, <%= pluralize(@planholder.errors.count, "error") %> are keeping you from being added to the planholder's list:</h3>
+          <ul>
+            <% @planholder.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div><br />
+  <% end %>
   <div class="form-group">
     <div class="row">
       <div class="col-md-8">
