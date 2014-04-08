@@ -29,8 +29,8 @@ mixpanel.init("dc4c7411c5cb59162057c36558bb0ce1");</script><!-- end Mixpanel -->
         <%= yield %>
 
         <% cache "date-footer-#{ Time.now.year }" do %>
-          <p style="text-align: center;">
-            <br />&copy; <%= Time.now.year %> Code for America.<br /><br /><br />
+          <p>
+            <br />&copy; <%= Time.now.year %> Code for America.<br /><%= image_tag "flag-white-blue.png" %><br /><br />
           </p>
         <% end %>
       </div>
