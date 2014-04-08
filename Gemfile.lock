@@ -167,6 +167,7 @@ DEPENDENCIES
   pg
   postmark
   rails (= 4.0.2)
+  rubyzip (>= 1.0.0)
   sass-rails (~> 4.0.0)
   sdoc
   turbolinks

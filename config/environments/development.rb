@@ -29,4 +29,6 @@ Supply::Application.configure do
 
   config.serve_static_assets = true
   config.assets.precompile += %w( *.css *.js )
+
+  Paperclip.options[:command_path] = "/usr/local/bin/"
 end
