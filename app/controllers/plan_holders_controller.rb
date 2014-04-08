@@ -23,7 +23,7 @@ class PlanHoldersController < ApplicationController
               end
             end
 
-            send_file @zipfile_name, filename: "#{ Rails.root }/tmp/#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip"
+            send_file @zipfile_name, filename: "#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip"
           else
             wants.html { redirect_to new_plan_holder_url }
           end
