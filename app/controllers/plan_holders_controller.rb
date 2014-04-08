@@ -4,7 +4,7 @@ class PlanHoldersController < ApplicationController
   def create
     @planholder = PlanHolder.new(planholders_params)
     @filenames = @project.documents.collect { |doc| doc.document.url }
-    @zipfile_name = "#{ Rails.root }/tmp/#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip"
+    @zipfile_name = "#{ Rails.root }/tmp/#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip_#{ Process.pid }"
 
     respond_to do |wants|
       if @planholder.save
@@ -16,14 +16,14 @@ class PlanHoldersController < ApplicationController
                 doc = Document.where(document_file_name: original_filename).first
 
                 if doc
-                  destination = File.join(Rails.root, "tmp/#{ original_filename }")
+                  destination = File.join(Rails.root, "tmp/#{ original_filename }_#{ Process.pid }")
                   doc.document.copy_to_local_file(destination)
                   zipfile.add(original_filename, destination)
                 end
               end
             end
 
-            send_file @zipfile_name
+            send_file @zipfile_name, filename: "#{ Rails.root }/tmp/#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip"
           else
             wants.html { redirect_to new_plan_holder_url }
           end
