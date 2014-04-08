@@ -43,6 +43,6 @@ class PlanHoldersController < ApplicationController
 
   private
   def planholders_params
-    params.require(:plan_holder).permit(:project_id, company_attributes: [:name], user_attributes: [:email])
+    params.require(:plan_holder).permit(:project_id, company_attributes: [:name], user_attributes: [:email, :first_name, :last_name])
   end
 end
