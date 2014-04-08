@@ -1,6 +1,8 @@
 class Project < ActiveRecord::Base
   has_many :questions
 
+  has_many :plan_holders
+
   has_many :documents, as: :attachable
 
   belongs_to :contracting_officer, counter_cache: true
