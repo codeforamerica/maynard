@@ -5,7 +5,7 @@
     $("#project_question_closing_date").datepicker();
   });
 </script>
-<%= form_for(@project, html: { role: "form" }) do |f| %>
+<%= form_for(@project, html: { role: "form", multipart: true }) do |f| %>
   <% if @project.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
@@ -48,6 +48,15 @@
       <div class="col-md-2">
         <%= f.label :question_closing_date, "Question closing date" %>
         <%= f.text_field :question_closing_date, class: "form-control" %>
+      </div>
+    </div><br />
+
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.label "Upload bid proposal documents" %><br />
+        <%= f.fields_for :documents, @project.documents do |pd| %>
+          <%= pd.file_field :document %>
+        <% end %>
       </div>
     </div>
   </div>

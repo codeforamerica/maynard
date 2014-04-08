@@ -55,3 +55,6 @@ gem 'aws-sdk'
 gem 'will_paginate', '~> 3.0'
 gem 'axlsx_rails'
 gem 'rubyzip', '>= 1.0.0'
+gem "paperclip-dropbox"
+
+gem "pry-byebug", group: [:development, :test]

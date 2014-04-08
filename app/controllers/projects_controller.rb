@@ -17,12 +17,14 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
+    @project.documents.build
     @project.contracting_officer = ContractingOfficer.new
   end
 
   # GET /projects/1/edit
   def edit
     @project.contracting_officer = ContractingOfficer.new unless @project.contracting_officer
+    @document = @project.documents.build
   end
 
   # POST /projects
@@ -85,6 +87,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:project_number, :name, :closing_date, :question_closing_date, :contracting_officer_id, contracting_officer_attributes: [:id])
+      params.require(:project).permit(:project_number, :name, :closing_date, :question_closing_date, :contracting_officer_id, documents_attributes: [:id, :document], contracting_officer_attributes: [:id])
     end
 end

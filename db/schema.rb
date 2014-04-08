@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407051317) do
+ActiveRecord::Schema.define(version: 20140407212352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,17 @@ ActiveRecord::Schema.define(version: 20140407051317) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "projects_count"
+  end
+
+  create_table "documents", force: true do |t|
+    t.string   "document_file_name"
+    t.integer  "document_file_size"
+    t.string   "document_content_type"
+    t.datetime "document_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "attachable_type"
+    t.integer  "attachable_id"
   end
 
   create_table "plan_holders", force: true do |t|

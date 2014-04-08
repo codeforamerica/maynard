@@ -1,6 +1,8 @@
 class Project < ActiveRecord::Base
   has_many :questions
 
+  has_many :documents, as: :attachable
+
   belongs_to :contracting_officer, counter_cache: true
 
   validates :project_number, presence: { message: "must be provided." }
@@ -14,6 +16,7 @@ class Project < ActiveRecord::Base
   validates_uniqueness_of :project_number
 
   accepts_nested_attributes_for :contracting_officer
+  accepts_nested_attributes_for :documents
 
   attr_readonly :mail_hash
 
