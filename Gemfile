@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.1.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -54,7 +54,9 @@ gem 'paperclip'
 gem 'aws-sdk'
 gem 'will_paginate', '~> 3.0'
 gem 'axlsx_rails'
-gem 'rubyzip', '>= 1.0.0'
+gem 'zip-zip'
+gem 'rubyzip', '>= 1.0.0', require: "zip/zip"
 gem "paperclip-dropbox"
 
 gem "pry-byebug", group: [:development, :test]
+gem "spring"
