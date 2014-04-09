@@ -1,5 +1,5 @@
 module ApplicationHelper
   def required_field
-    raw(%{ <span style="color: #c7254e; font-weight: bold;">*</span> })
+    content_tag(:span, " *", { style: "color: #c7254e; font-weight: bold;" })
   end
 end
