@@ -73,7 +73,10 @@
   <div class="form-group">
     <div class="row">
       <div class="col-md-8">
-        <%= f.label "Select a bid opportunity" %><br />
+        <p>
+          <strong><%= required_field %> denotes required fields</strong><br />
+        </p>
+        <%= f.label "Select a bid opportunity" %><%= required_field %><br />
         <%= f.select(:project_id, Project.order('project_number ASC').pluck(:id, :name, :project_number).collect { |p| ["#{ p[2] } - #{ truncate(p[1], length: 30) }", p[0]] }, { include_blank: true }, { class: "form-control input-lg" }) %>
       </div>
     </div><br />
@@ -90,18 +93,18 @@
     <%= f.fields_for :user, @planholder.user do |p| %>
       <div class="row">
         <div class="col-sm-4">
-          <%= f.label "What's your first name?" %>
+          <%= f.label "What's your first name?" %><%= required_field %>
           <%= p.text_field :first_name, class: "form-control input-lg col-sm-4", placeholder: "Jane" %>
         </div>
         <div class="col-sm-4">
-          <%= f.label "What's your last name?" %>
+          <%= f.label "What's your last name?" %><%= required_field %>
           <%= p.text_field :last_name, class: "form-control input-lg", placeholder: "Doe" %>
         </div>
       </div><br />
 
       <div class="row">
         <div class="col-md-8">
-          <%= p.label "What's your email address?" %>
+          <%= p.label "What's your email address?" %><%= required_field %>
           <%= p.text_field :email, class: "form-control input-lg", placeholder: "janedoe@excellent-vendor.com" %>
           <span class="help-block">Be sure to use an email address that you check often to ensure you receive all updates.</span>
         </div>
@@ -113,7 +116,7 @@
     <div class="row">
       <div class="col-md-6">
         <%= f.fields_for :company, @planholder.company do |c| %>
-          <%= c.label "Finally, what's the name of your company?" %><br />
+          <%= c.label "Finally, what's the name of your company?" %><%= required_field %><br />
           <%= c.text_field :name, class: "form-control input-lg", placeholder: "ACME Widgets, Inc." %>
         <% end %>
       </div>
