@@ -126,7 +126,7 @@
   <div class="form-group">
     <div class="row">
       <div class="col-md-4">
-        <%= f.submit "Download the bidder's package & receive updates!", class: "btn-success btn" %>
+        <%= f.submit "Download the bidder's package & receive updates!", { id: "planholder-submit-btn", class: "btn-success btn", data: { disable_with: "Downloading bidder's package & adding you to the planholder's list..."} } %>
       </div>
     </div>
   </div>
