@@ -128,9 +128,9 @@
       <div class="col-md-6">
         <%= f.submit "Download the bidder's package & receive updates!", { id: "planholder-submit-btn", class: "btn-success btn", data: { disable_with: "Downloading bidder's package & adding you to the planholder's list..."} } %>
         <span class="help-block">
-          Bid document downloads will arrive in the form of a compressed ZIP archive to save space.
+          Bid document downloads are packaged as a compressed ZIP file to save space and for faster download.
           <%= link_to "Learn", "#", { onclick: "$('#zip-archive-directions').toggle(); return false;" } %> how
-          to open a ZIP archive on your system.
+          to open a ZIP file on your system.
         </span>
       </div>
     </div>
@@ -139,11 +139,11 @@
         <div class="col-md-6">
           <div class="well">
             <p>
-              To learn how to open a ZIP archive on <strong>Microsoft Windows</strong>,
+              To learn how to open a ZIP file on <strong>Microsoft Windows</strong>,
               visit <%= link_to "Compress and uncompress (zip files)", "http://windows.microsoft.com/en-us/windows/compress-uncompress-files-zip-files#1TC=windows-7", target: "_blank" %>.
             </p>
             <p>
-              To learn how to open a ZIP archive on <strong>Mac OS X</strong>,
+              To learn how to open a ZIP file on <strong>Mac OS X</strong>,
               visit <%= link_to "How to Zip and Unzip Files and Folders On a Mac", "http://macs.about.com/od/faq1/f/How-To-Zip-And-Unzip-Files-And-Folders-On-A-Mac.htm", target: "_blank" %>.
             </p>
           </div>

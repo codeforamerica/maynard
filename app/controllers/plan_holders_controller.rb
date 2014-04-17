@@ -23,6 +23,7 @@ class PlanHoldersController < ApplicationController
               end
             end
 
+            @mixpanel.track('1', 'planholder-download')
             send_file @zipfile_name, filename: "#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip"
           else
             wants.html { redirect_to new_plan_holder_url }
@@ -58,7 +59,8 @@ class PlanHoldersController < ApplicationController
 
   def update_interface
     @project = Project.find(params[:plan_holder][:project_id])
-
+    @mixpanel.track('1', 'bid-docs-selected')
+    
     respond_to do |wants|
       wants.json { render json: @project, status: :ok }
     end
