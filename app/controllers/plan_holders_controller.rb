@@ -16,8 +16,14 @@ class PlanHoldersController < ApplicationController
         wants.html do
           if @filenames && !@filenames.empty?
             Zip::File.open(@zipfile_name, Zip::File::CREATE) do |zipfile|
+              # Generate a file manifest for the bid package.
+              readme_str = File.join(Rails.root, "tmp/readme_#{ Process.pid }.txt")
+              bid_package_readme = File.open(readme_str, "w")
+              bid_package_readme << "#{ @planholder.first_name }, you should find the following files in this bid package for contract ##{ @project.project_number }:\n"
+
               @filenames.each_with_index do |filename, index|
                 original_filename = filename.split('/').last
+                bid_package_readme << "\n- #{ original_filename }"
                 doc = Document.where(document_file_name: original_filename).first
 
                 if doc
@@ -26,6 +32,9 @@ class PlanHoldersController < ApplicationController
                   zipfile.add(original_filename, destination)
                 end
               end
+
+              bid_package_readme.close
+              zipfile.add("readme.txt", bid_package_readme)
             end
 
             @mixpanel.track('1', 'planholder-download')
