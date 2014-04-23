@@ -11,6 +11,6 @@ class ApplicationController < ActionController::Base
   before_filter :instantiate_mixpanel
 
   def instantiate_mixpanel
-    @mixpanel = Mixpanel::Tracker.new("dc4c7411c5cb59162057c36558bb0ce1")
+    @mixpanel = Mixpanel::Tracker.new(ENV['MIXPANEL_API_KEY'])
   end
 end
