@@ -3,13 +3,18 @@ class PlanHoldersController < ApplicationController
 
   def create
     @planholder = PlanHolder.new(planholders_params)
-    @filenames = @project.documents.collect { |doc| doc.document.url }
-    @zipfile_name = "#{ Rails.root }/tmp/#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip_#{ Process.pid }"
+
+    begin
+      @filenames = @project.documents.collect { |doc| doc.document.url }
+      @zipfile_name = "#{ Rails.root }/tmp/#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip_#{ Process.pid }"
+    rescue DropboxError
+      puts "***Storage error: looks like the necessary documents are not where they're supposed to be!"
+    end
 
     respond_to do |wants|
       if @planholder.save
         wants.html do
-          if !@filenames.empty?
+          if @filenames && !@filenames.empty?
             Zip::File.open(@zipfile_name, Zip::File::CREATE) do |zipfile|
               @filenames.each_with_index do |filename, index|
                 original_filename = filename.split('/').last
@@ -27,6 +32,7 @@ class PlanHoldersController < ApplicationController
             send_file @zipfile_name, filename: "#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip"
           else
             wants.html { redirect_to new_plan_holder_url }
+            wants.json { head :unprocessable_entity }
           end
         end
       else
@@ -60,7 +66,7 @@ class PlanHoldersController < ApplicationController
   def update_interface
     @project = Project.find(params[:plan_holder][:project_id])
     @mixpanel.track('1', 'bid-docs-selected')
-    
+
     respond_to do |wants|
       wants.json { render json: @project, status: :ok }
     end
