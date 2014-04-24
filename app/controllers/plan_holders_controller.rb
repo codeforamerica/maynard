@@ -5,7 +5,7 @@ class PlanHoldersController < ApplicationController
     @planholder = PlanHolder.new(planholders_params)
 
     begin
-      @filenames = @project.documents.collect { |doc| doc.document.url }
+      @filenames = @project.documents.filenames
       @zipfile_name = "#{ Rails.root }/tmp/#{ @project.name_with_project_number }-#{ Time.now.to_i }.zip_#{ Process.pid }"
     rescue DropboxError
       puts "***Storage error: looks like the necessary documents are not where they're supposed to be!"
@@ -14,7 +14,7 @@ class PlanHoldersController < ApplicationController
     respond_to do |wants|
       if @planholder.save
         wants.html do
-          if @filenames && !@filenames.empty?
+          if !@filenames.empty?
             Zip::File.open(@zipfile_name, Zip::File::CREATE) do |zipfile|
               # Generate a file manifest for the bid package.
               readme_str = File.join(Rails.root, "tmp/readme_#{ Process.pid }.txt")

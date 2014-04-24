@@ -3,7 +3,11 @@ class Project < ActiveRecord::Base
 
   has_many :plan_holders
 
-  has_many :documents, as: :attachable
+  has_many :documents, as: :attachable do
+    def filenames
+      collect { |doc| doc.document.url }
+    end
+  end
 
   belongs_to :contracting_officer, counter_cache: true
 
