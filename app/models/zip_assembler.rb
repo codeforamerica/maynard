@@ -32,6 +32,7 @@ class ZipAssembler
 
             # TODO: Contracting officer can customize the message that goes here.
             bid_package_readme << "\n\nSince you've registered for updates, you will automatically receive notifications of changes to this opportunity by email!"
+            bid_package_readme << "\n\nAny further questions should be directed to project contracting officer, #{ project.contracting_officer.name } at #{ project.contracting_officer.email_address }."
             bid_package_readme.close
 
             zipfile.add("readme.txt", bid_package_readme)
