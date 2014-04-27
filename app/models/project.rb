@@ -3,7 +3,7 @@ class Project < ActiveRecord::Base
 
   has_many :plan_holders
 
-  has_many :documents, as: :attachable do
+  has_many :documents, as: :attachable, dependent: :destroy do
     def filenames
       collect { |doc| doc.document.url }
     end
