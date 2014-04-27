@@ -62,3 +62,5 @@ gem "paperclip-dropbox"
 
 gem "pry-byebug", group: [:development, :test]
 gem "spring"
+
+gem "jquery-fileupload-rails"

@@ -1,66 +1,251 @@
-<script type="text/javascript">
-  var closeDate = "";
-  jQuery(function($) {
-    $("#project_closing_date").datepicker();
-    $("#project_question_closing_date").datepicker();
-  });
-</script>
-<%= form_for(@project, html: { role: "form", multipart: true }) do |f| %>
-  <% if @project.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+<style type="text/css">
+  .fileinput-button {
+    position: relative;
+    overflow: hidden;
+  }
 
-      <ul>
-      <% @project.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+  .fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+  }
+</style>
+
+<div class="container">
+  <h2>Upload file</h2>
+  <%= form_for @project, html: { multipart: true, id: "fileupload", role: "form"  } do |f| %>
+    <% if @project.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+        <ul>
+        <% @project.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-3">
+          <%= f.label :project_number %><br>
+          <%= f.text_field :project_number, class: "form-control", placeholder: "Enter the project number" %><br />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.label :name %><br />
+          <%= f.text_field :name, class: "form-control", placeholder: "Enter the name of the project" %><br />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+            <%= f.label :contracting_officer %><br />
+            <%= f.collection_select(:contracting_officer_id, ContractingOfficer.order('contracting_officers.last_name ASC').all, :id, :name) %>
+        </div>
+      </div><br />
+
+      <!-- The loading indicator is shown during image processing -->
+      <div class="fileupload-loading"></div><br />
+
+      <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+      <div class="row fileupload-buttonbar">
+        <div class="col-md-8">
+          <!-- The fileinput-button span is used to style the file input field as button -->
+          <button class="btn btn-success fileinput-button">
+            <span class="glyphicon glyphicon-plus"></span> Add files
+            <%= f.fields_for :documents, @project.documents do |pd| %>
+              <%= pd.file_field :document %>
+            <% end %>
+          </button>
+        </div>
+        <div class="span5">
+          <!-- The global progress bar -->
+          <div class="progress progress-success progress-striped active fade">
+            <div class="bar" style="width:0%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Element for holding list of files selected for upload -->
+      <div class="row" id="uploaded-files"></div>
+      <%= f.fields_for :documents, @project.documents do |pd| %>
+        <div class="row">
+          <% if pd.object.document.original_filename %>
+            <div class="col-md-6">
+              <div class="well" id="file-upload-well">
+                <%= file_uploadname(pd.object) -%>
+                <%= file_upload_info(pd.object) -%>
+                <%= file_upload_remove_btn(pd.object) -%>
+              </div>
+            </div>
+          <% end %>
+        </div>
       <% end %>
-      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <!-- The loading indicator is shown during image processing -->
+        <div class="fileupload-loading"></div><br />
+
+        <!-- The table listing the files available for upload/download -->
+        <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="actions">
+      <%= f.submit %>
     </div>
   <% end %>
 
-  <div class="form-group">
-    <div class="row">
-      <div class="col-md-3">
-        <%= f.label :project_number %><br>
-        <%= f.text_field :project_number, class: "form-control", placeholder: "Enter the project number" %><br />
+</div>
+<script>
+  var fileUploadErrors = {
+  maxFileSize: 'File is too big',
+  minFileSize: 'File is too small',
+  acceptFileTypes: 'Filetype not allowed',
+  maxNumberOfFiles: 'Max number of files exceeded',
+  uploadedBytes: 'Uploaded bytes exceed file size',
+  emptyResult: 'Empty file upload result'
+  };
+</script>
+
+<!-- The template to display files available for upload -->
+<script id="template-upload-007" type="text/x-tmpl">
+  {% for (var i = 0, file; file = o.files[i]; i++) { %}
+    <div class="row template-upload fade">
+      <div class="col-md-6">
+        <div class="well">
+          <span class="preview"><span class="fade"></span></span>
+          <span class="name">{%=file.name %}</span> <span class="size">({%= o.formatFileSize(file.size) %})</size><br />
+          <div class="progress progress-success progress-striped active" style="margin-top: 10px;">
+            <div class="bar" style="width:0%;"></div>
+          </div>
+          <button class="btn btn-primary start">
+            <span class="glyphicon glyphicon-upload"></span> Start upload
+          </button>
+          <button class="btn btn-danger cancel">
+            <span class="glyphicon glyphicon-remove"></span> Nevermind
+          </button>
+        </div>
       </div>
     </div>
+  {% } %}
+</script>
 
-    <div class="row">
-      <div class="col-md-6">
-        <%= f.label :name %><br />
-        <%= f.text_field :name, class: "form-control", placeholder: "Enter the name of the project" %><br />
-      </div>
-    </div>
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+  <tr class="template-upload fade">
+    <td class="preview"><span class="fade"></span></td>
+    <td class="name"><span>{%=file.name%}</span></td>
+    <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+    {% if (file.error) { %}
+    <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+    {% } else if (o.files.valid && !i) { %}
+    <td>
+      <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+    </td>
+    <td class="start">{% if (!o.options.autoUpload) { %}
+      <button class="btn btn-primary">
+        <i class="icon-upload icon-white"></i>
+        <span>{%=locale.fileupload.start%}</span>
+      </button>
+      {% } %}</td>
+    {% } else { %}
+    <td colspan="2"></td>
+    {% } %}
+    <td class="cancel">{% if (!i) { %}
+      <button class="btn btn-warning">
+        <i class="icon-ban-circle icon-white"></i>
+        <span>{%=locale.fileupload.cancel%}</span>
+      </button>
+      {% } %}</td>
+  </tr>
+  {% } %}
+</script>
 
-    <div class="row">
-      <div class="col-md-6">
-          <%= f.label :contracting_officer %><br />
-          <%= f.collection_select(:contracting_officer_id, ContractingOfficer.order('contracting_officers.last_name ASC').all, :id, :name) %>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+      {% if (file.error) { %}
+        <td></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else { %}
+        <td class="preview">{% if (file.thumbnail_url) { %}
+          <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+          {% } %}</td>
+        <td class="name">
+          <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+        </td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        <td colspan="2"></td>
+        {% } %}
+      <td class="delete">
+        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+          <i class="icon-trash icon-white"></i>
+          <span>{%=locale.fileupload.destroy%}</span>
+        </button>
+        <input type="checkbox" name="delete" value="1">
+      </td>
+    </tr>
+    {% } %}
+</script>
+
+<script id="upload-block" type="text/x-tmpl">
+  {% for (var i=0, file; file=o.files[i]; i++) { %}
+    <div class="col-md-6">
+      <div class="well">
+        <strong>{%= file.name %}</strong><br />
+        Uploaded<br /><br />
+        <button class="btn btn-danger">
+          <span class="glyphicon glyphicon-remove"></span> Remove
+        </button>
       </div>
     </div><br />
+  {% } %}
+</script>
 
-    <div class="row">
-      <div class="col-md-2">
-        <%= f.label :closing_date, "Project closing date" %>
-        <%= f.text_field :closing_date, class: "form-control" %>
-      </div>
-      <div class="col-md-2">
-        <%= f.label :question_closing_date, "Question closing date" %>
-        <%= f.text_field :question_closing_date, class: "form-control" %>
-      </div>
-    </div><br />
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+      // Initialize the jQuery File Upload widget:
+      $('#fileupload').fileupload({
+        autoUpload: true,
+        prependFiles: true
+      })
+      .bind('fileuploaddone', function(e, data) {
+        var uploadedFile = data.files[0];
+        $('#uploaded-files').prepend(tmpl("upload-block", data));
+      });
 
-    <div class="row">
-      <div class="col-md-6">
-        <%= f.label "Upload bid proposal documents" %><br />
-        <%= f.fields_for :documents, @project.documents do |pd| %>
-          <%= pd.file_field :document %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+      $.getJSON($('#fileupload').prop('action'), function (files) {
+        var fu = $('#fileupload').data('blueimpFileupload'),
+          template;
+        fu._adjustMaxNumberOfFiles(-files.length);
+        console.log(files);
+        template = fu._renderDownload(files)
+          .appendTo($('#fileupload .files'));
+        // Force reflow:
+        fu._reflow = fu._transition && template.length &&
+          template[0].offsetWidth;
+        template.addClass('in');
+        $('#loading').remove();
+      });
+
+  });
+</script>

@@ -26,7 +26,14 @@ class ZipAssembler
                 # Include this Process.pid stuff for Heroku's filehandling, as per https://devcenter.heroku.com/articles/read-only-filesystem
                 destination = File.join(Rails.root, "tmp/#{ original_filename }_#{ Process.pid }")
                 doc.document.copy_to_local_file(destination)
-                zipfile.add(original_filename, destination)
+
+                begin
+                  zipfile.add(original_filename, destination)
+                rescue Zip::EntryExistsError
+
+                else
+
+                end
               end
             end
 
@@ -34,6 +41,7 @@ class ZipAssembler
             bid_package_readme << "\n\nSince you've registered for updates, you will automatically receive notifications of changes to this opportunity by email!"
             bid_package_readme << "\n\nAny further questions should be directed to project contracting officer, #{ project.contracting_officer.name } at #{ project.contracting_officer.email_address }."
             bid_package_readme.close
+
 
             zipfile.add("readme.txt", bid_package_readme)
             zip_filename
