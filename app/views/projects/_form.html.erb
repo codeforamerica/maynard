@@ -22,7 +22,7 @@
     var remove_btn = '#file-remove-btn-' + document;
     $(remove_btn).html("Removing...").attr('disabled', 'disabled');
 
-    var delete_doc_url = 'http://0.0.0.0:3000/projects/' + project + '.json';
+    var delete_doc_url = '<%= root_url %>projects/' + project + '.json';
     var jqxhr = $.ajax({
       type: 'PATCH',
       url: delete_doc_url,
