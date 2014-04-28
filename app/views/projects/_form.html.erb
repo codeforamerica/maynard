@@ -17,6 +17,28 @@
   }
 </style>
 
+<script type="text/javascript">
+  function delete_document(project, document) {
+    var remove_btn = '#file-remove-btn-' + document;
+    $(remove_btn).html("Removing...").attr('disabled', 'disabled');
+
+    var delete_doc_url = 'http://0.0.0.0:3000/projects/' + project + '.json';
+    var jqxhr = $.ajax({
+      type: 'PATCH',
+      url: delete_doc_url,
+      data: { project: { documents_attributes: [{ id: document, _destroy: true }]} },
+      success: function(data) {
+        var document_element = '#uploaded-file-' + document;
+        $(document_element).fadeOut();
+      },
+      error: function(data) {
+        console.log("Bombed out!");
+        console.log(data);
+      }
+    });
+  }
+</script>
+
 <div class="container">
   <h2>Upload file</h2>
   <%= form_for @project, html: { multipart: true, id: "fileupload", role: "form"  } do |f| %>
@@ -79,8 +101,16 @@
       <!-- Element for holding list of files selected for upload -->
       <div class="row" id="uploaded-files"></div>
       <%= f.fields_for :documents, @project.documents do |pd| %>
-        <div class="row">
+        <div class="row" id="uploaded-file-<%= pd.object.id %>">
           <% if pd.object.document.original_filename %>
+            <script type="text/javascript">
+              $(function() {
+                $("button[id^='file-remove-btn-<%= pd.object.id %>']").on('click', function(e) {
+                  e.preventDefault();
+                  delete_document('<%= @project.id %>', '<%= pd.object.id %>');
+                });
+              });
+            </script>
             <div class="col-md-6">
               <div class="well" id="file-upload-well">
                 <%= file_uploadname(pd.object) -%>
@@ -237,7 +267,6 @@
         var fu = $('#fileupload').data('blueimpFileupload'),
           template;
         fu._adjustMaxNumberOfFiles(-files.length);
-        console.log(files);
         template = fu._renderDownload(files)
           .appendTo($('#fileupload .files'));
         // Force reflow:

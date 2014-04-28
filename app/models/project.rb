@@ -22,7 +22,7 @@ class Project < ActiveRecord::Base
   validates_uniqueness_of :project_number
 
   accepts_nested_attributes_for :contracting_officer
-  accepts_nested_attributes_for :documents
+  accepts_nested_attributes_for :documents, allow_destroy: true
 
   attr_readonly :mail_hash
 

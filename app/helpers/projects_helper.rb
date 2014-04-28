@@ -10,7 +10,7 @@ module ProjectsHelper
 
   def file_upload_remove_btn(doc)
     unless doc.document.original_filename.blank?
-      "<br /><br />".html_safe + content_tag(:button, nil, class: "btn btn-small btn-danger", id: "doc-#{ doc.id }-remove-btn") do
+      "<br /><br />".html_safe + content_tag(:button, nil, class: "btn btn-small btn-danger", id: "file-remove-btn-#{ doc.id }") do
         content_tag(:span, nil, class: "glyphicon glyphicon-remove") + " Remove"
       end
     end
