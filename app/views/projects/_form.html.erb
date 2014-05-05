@@ -37,10 +37,47 @@
       }
     });
   }
+
+  $(function() {
+    $('input[name="project[prebid_conf]"]').change(function() {
+      if($(this).is(":checked")) {
+        $('#prebid-conf-info-form').fadeToggle();
+      }
+    });
+
+    $('input[name="project[site_visit]"]').change(function() {
+      if($(this).is(":checked")) {
+        $('#site-visit-info-form').fadeToggle();
+      }
+    });
+
+    $('#site-visit-date-field').datepicker();
+
+    $('#prebid-conf-date-field').datepicker();
+
+    $('#project_closing_date').datepicker();
+
+    $('#project_question_closing_date').datepicker();
+  });
+
+  var site_visit_autocomplete, prebid_conf_autocomplete;
+
+  function initialize() {
+    // Create the autocomplete object, restricting the search
+    // to geographical location types.
+    site_visit_autocomplete = new google.maps.places.Autocomplete((document.getElementById('site-address-autocomplete-field')), { types: ['geocode'] });
+    google.maps.event.addListener(site_visit_autocomplete, 'place_changed', function() {
+      console.log("YAY! Address!");
+    });
+
+    prebid_conf_autocomplete = new google.maps.places.Autocomplete((document.getElementById('prebid-conf-address-autocomplete')), { types: ['geocode'] });
+    google.maps.event.addListener(prebid_conf_autocomplete, 'place_changed', function() {
+      console.log("Pre bid address!");
+    });
+  }
 </script>
 
 <div class="container">
-  <h2>Upload file</h2>
   <%= form_for @project, html: { multipart: true, id: "fileupload", role: "form"  } do |f| %>
     <% if @project.errors.any? %>
       <div id="error_explanation">
@@ -56,25 +93,95 @@
 
     <div class="form-group">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <%= f.label :project_number %><br>
-          <%= f.text_field :project_number, class: "form-control", placeholder: "Enter the project number" %><br />
+          <%= f.text_field :project_number, class: "form-control col-xs-2", placeholder: "Enter the project number" %><br />
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <%= f.label :name %><br />
-          <%= f.text_field :name, class: "form-control", placeholder: "Enter the name of the project" %><br />
+          <%= f.text_field :name, class: "form-control col-xs-4", placeholder: "Enter the name of the project" %><br />
         </div>
-      </div>
+      </div><br />
 
       <div class="row">
         <div class="col-md-6">
-            <%= f.label :contracting_officer %><br />
+            <%= f.label "Who is the contracting officer for this project?" %><br />
             <%= f.collection_select(:contracting_officer_id, ContractingOfficer.order('contracting_officers.last_name ASC').all, :id, :name) %>
         </div>
       </div><br />
+
+      <div class="row">
+        <div class="col-md-2">
+          <%= f.label "When are bids due?" %><br />
+          <%= f.text_field :closing_date, class: "form-control" %><br />
+        </div>
+        <div class="col-md-4">
+          <%= f.label "When are questions due?" %><br />
+          <%= f.text_field :question_closing_date, class: "form-control" %><br />
+        </div>
+      </div>
+
+      <!-- Pre-bid conference, no? -->
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.label "Will be there be a pre-bid conference?" %>
+          <div class="well">
+            <div class="row">
+              <div class="col-md-2">
+                <%= f.radio_button :prebid_conf, true %>&nbsp; Yes
+              </div>
+              <div class="col-md-2">
+                <%= f.radio_button :prebid_conf, false, checked: true %>&nbsp; No
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" id="prebid-conf-info-form" style="display: none;">
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <%= label_tag "When is the pre-bid conference?" %><br />
+              <%= text_field_tag :prebid_conf_date, nil, { placeholder: "Select a pre-bid conference date.", class: "form-control", id: "prebid-conf-date-field" } %><br />
+
+              <%= label_tag "Where is the pre-bid conference?" %><br />
+              <%= text_field_tag :prebid_conf_address, nil, { placeholder: "Begin typing the address", class: "form-control", id: "prebid-conf-address-autocomplete" } %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Site visits? -->
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.label "Will be there be a site visit?" %>
+          <div class="well">
+            <div class="row">
+              <div class="col-md-2">
+                <%= f.radio_button :site_visit, true, { id: "site-visit-yes" } %>&nbsp; Yes
+              </div>
+              <div class="col-md-2">
+                <%= f.radio_button :site_visit, false, { checked: true, id: "site-visit-no" } %>&nbsp; No
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" id="site-visit-info-form" style="display: none;">
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <%= label_tag "When is the site visit?" %><br />
+              <%= text_field_tag :site_visit_date, nil, { placeholder: "Select a site visit date.", class: "form-control", id: "site-visit-date-field" } %><br />
+
+              <%= label_tag "Where is the site visit?" %><br />
+              <%= text_field_tag :site_visit_address, nil, { placeholder: "Begin typing the address", class: "form-control", id: "site-address-autocomplete-field" } %>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- The loading indicator is shown during image processing -->
       <div class="fileupload-loading"></div><br />
@@ -136,7 +243,8 @@
 
 
     <div class="actions">
-      <%= f.submit %>
+      <%= button_tag "Save as a draft" %>
+      <%= f.submit "Publish" %>
     </div>
   <% end %>
 

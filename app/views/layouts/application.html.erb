@@ -14,6 +14,8 @@
 <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
   <%= stylesheet_link_tag    "//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css", "datepicker.css", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "bootstrap-datepicker.js", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
@@ -22,7 +24,7 @@
 for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f)}})(document,window.mixpanel||[]);
 mixpanel.init("<%= ENV['MIXPANEL_API_KEY'] %>");</script><!-- end Mixpanel -->
 </head>
-<body>
+<body onload="initialize();">
   <div class="container">
     <div class="row">
       <div class="col-md-10">
