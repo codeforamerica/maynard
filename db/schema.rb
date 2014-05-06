@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505230619) do
+ActiveRecord::Schema.define(version: 20140506223651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,8 +76,8 @@ ActiveRecord::Schema.define(version: 20140505230619) do
     t.string   "status"
     t.string   "mail_hash"
     t.datetime "preproposal_conf_date"
-    t.boolean  "prebid_conf"
-    t.boolean  "site_visit"
+    t.boolean  "prebid_conf",               default: false
+    t.boolean  "site_visit",                default: false
     t.boolean  "draft"
   end
 

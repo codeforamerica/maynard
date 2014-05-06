@@ -15,6 +15,19 @@
     direction: ltr;
     cursor: pointer;
   }
+
+  .bs-callout {
+    margin: 20px 0;
+    padding: 20px;
+    border-left: 3px solid #eee;
+  }
+
+  .bs-callout-danger {
+    background-color: #fdf7f7;
+    border-color: #d9534f;
+  }
+
+  .field_with_errors { display: inline; }
 </style>
 
 <script type="text/javascript">
@@ -44,6 +57,14 @@
         $('#prebid-conf-info-form').fadeToggle();
       }
     });
+
+    if($('input[name="project[prebid_conf]"]:checked').val() == "true") {
+      $('#prebid-conf-info-form').fadeToggle();
+    }
+
+    if($('input[name="project[site_visit]"]:checked').val() == "true") {
+      $('#site-visit-info-form').fadeToggle();
+    }
 
     $('input[name="project[site_visit]"]').change(function() {
       if($(this).is(":checked")) {
@@ -80,14 +101,18 @@
 <div class="container">
   <%= form_for @project, html: { multipart: true, id: "fileupload", role: "form"  } do |f| %>
     <% if @project.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div id="error_explanation" class="bs-callout bs-callout-danger">
+            <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
 
-        <ul>
-        <% @project.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
+            <ul>
+              <% @project.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
       </div>
     <% end %>
 
@@ -113,11 +138,11 @@
       <div class="row">
         <div class="col-md-2">
           <%= f.label "When are bids due?" %><br />
-          <%= f.text_field :closing_date, class: "form-control" %><br />
+          <%= f.text_field :closing_date, { class: "form-control", placeholder: "Click to choose" } %><br />
         </div>
         <div class="col-md-4">
           <%= f.label "When are questions due?" %><br />
-          <%= f.text_field :question_closing_date, class: "form-control" %><br />
+          <%= f.text_field :question_closing_date, { class: "form-control", placeholder: "Click to choose" } %><br />
         </div>
       </div>
 
@@ -131,7 +156,7 @@
                 <%= f.radio_button :prebid_conf, true %>&nbsp; Yes
               </div>
               <div class="col-md-2">
-                <%= f.radio_button :prebid_conf, false, checked: true %>&nbsp; No
+                <%= f.radio_button :prebid_conf, false %>&nbsp; No
               </div>
             </div>
           </div>
@@ -162,7 +187,7 @@
                 <%= f.radio_button :site_visit, true, { id: "site-visit-yes" } %>&nbsp; Yes
               </div>
               <div class="col-md-2">
-                <%= f.radio_button :site_visit, false, { checked: true, id: "site-visit-no" } %>&nbsp; No
+                <%= f.radio_button :site_visit, false, { id: "site-visit-no" } %>&nbsp; No
               </div>
             </div>
           </div>

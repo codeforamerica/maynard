@@ -14,8 +14,8 @@ class Project < ActiveRecord::Base
   validates :project_number, presence: { message: "must be provided." }
   validates :name, presence: true, presence: { message: "must be provided." }
 
-  validates :closing_date, presence: { message: "must be provided." }
-  validates :question_closing_date, presence: { message: "must be provided." }
+  #validates :closing_date, presence: { message: "must be provided." }
+  #validates :question_closing_date, presence: { message: "must be provided." }
 
   validate :question_closing_date_before_closing_date
 
@@ -42,7 +42,7 @@ class Project < ActiveRecord::Base
   end
 
   def question_closing_date_before_closing_date
-    errors.add(:base, "Question closing date should be before project closing date.") unless question_closing_date.to_i < closing_date.to_i # Unix timetsamps only!
+    errors.add(:base, "Question closing date occur before project closing date.") unless question_closing_date.to_i < closing_date.to_i # Unix timetsamps only!
   end
 
   def inbound_email_address
