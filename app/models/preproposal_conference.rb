@@ -1,0 +1,1 @@
+class PreproposalConference < Meeting; end

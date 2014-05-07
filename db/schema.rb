@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140506223651) do
+ActiveRecord::Schema.define(version: 20140507035910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,19 @@ ActiveRecord::Schema.define(version: 20140506223651) do
     t.integer  "attachable_id"
   end
 
+  create_table "meetings", force: true do |t|
+    t.datetime "date"
+    t.string   "street_address"
+    t.string   "street_address2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
+  end
+
   create_table "plan_holders", force: true do |t|
     t.integer  "project_id"
     t.integer  "company_id"
@@ -77,8 +90,9 @@ ActiveRecord::Schema.define(version: 20140506223651) do
     t.string   "mail_hash"
     t.datetime "preproposal_conf_date"
     t.boolean  "prebid_conf",               default: false
-    t.boolean  "site_visit",                default: false
+    t.boolean  "site_visit_planned",        default: false
     t.boolean  "draft"
+    t.datetime "site_visit_date"
   end
 
   create_table "questions", force: true do |t|

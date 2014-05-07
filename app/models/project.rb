@@ -9,6 +9,10 @@ class Project < ActiveRecord::Base
     end
   end
 
+  has_one :preproposal_conference
+
+  has_one :site_visit
+
   belongs_to :contracting_officer, counter_cache: true
 
   validates :project_number, presence: { message: "must be provided." }
@@ -23,6 +27,8 @@ class Project < ActiveRecord::Base
 
   accepts_nested_attributes_for :contracting_officer
   accepts_nested_attributes_for :documents, allow_destroy: true
+  accepts_nested_attributes_for :preproposal_conference, allow_destroy: true
+  accepts_nested_attributes_for :site_visit, allow_destroy: true
 
   attr_readonly :mail_hash
 

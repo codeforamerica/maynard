@@ -19,6 +19,8 @@ class ProjectsController < ApplicationController
     @project = Project.new
     @project.documents.build
     @project.contracting_officer = ContractingOfficer.new
+    @project.preproposal_conference = PreproposalConference.new
+    @project.site_visit = SiteVisit.new
   end
 
   # GET /projects/1/edit
@@ -87,6 +89,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:project_number, :name, :closing_date, :question_closing_date, :contracting_officer_id, :site_visit, :prebid_conf, documents_attributes: [:id, :document, :_destroy], contracting_officer_attributes: [:id])
+      params.require(:project).permit(:project_number, :name, :closing_date, :question_closing_date, :preproposal_conf_date, :site_visit_date, :contracting_officer_id, :site_visit_planned, :prebid_conf, site_visit_attributes: [:id, :date], preproposal_conference_attributes: [:id, :date], documents_attributes: [:id, :document, :_destroy], contracting_officer_attributes: [:id])
     end
 end

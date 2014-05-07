@@ -62,11 +62,11 @@
       $('#prebid-conf-info-form').fadeToggle();
     }
 
-    if($('input[name="project[site_visit]"]:checked').val() == "true") {
+    if($('input[name="project[site_visit_planned]"]:checked').val() == "true") {
       $('#site-visit-info-form').fadeToggle();
     }
 
-    $('input[name="project[site_visit]"]').change(function() {
+    $('input[name="project[site_visit_planned]"]').change(function() {
       if($(this).is(":checked")) {
         $('#site-visit-info-form').fadeToggle();
       }
@@ -167,11 +167,13 @@
         <div class="col-md-6">
           <div class="panel panel-default">
             <div class="panel-body">
-              <%= label_tag "When is the pre-bid conference?" %><br />
-              <%= text_field_tag :prebid_conf_date, nil, { placeholder: "Select a pre-bid conference date.", class: "form-control", id: "prebid-conf-date-field" } %><br />
+              <%= f.fields_for :preproposal_conference, @project.preproposal_conference do |p| %>
+                <%= p.label "When is the pre-bid conference?" %><br />
+                <%= p.text_field :date, { placeholder: "Select a pre-bid conference date.", class: "form-control", id: "prebid-conf-date-field" } %><br />
 
-              <%= label_tag "Where is the pre-bid conference?" %><br />
-              <%= text_field_tag :prebid_conf_address, nil, { placeholder: "Begin typing the address", class: "form-control", id: "prebid-conf-address-autocomplete" } %>
+                <%= p.label "Where is the pre-bid conference?" %><br />
+                <%= text_field_tag :prebid_conf_address, nil, { placeholder: "Begin typing the address", class: "form-control", id: "prebid-conf-address-autocomplete" } %>
+              <% end %>
             </div>
           </div>
         </div>
@@ -184,10 +186,10 @@
           <div class="well">
             <div class="row">
               <div class="col-md-2">
-                <%= f.radio_button :site_visit, true, { id: "site-visit-yes" } %>&nbsp; Yes
+                <%= f.radio_button :site_visit_planned, true, { id: "site-visit-yes" } %>&nbsp; Yes
               </div>
               <div class="col-md-2">
-                <%= f.radio_button :site_visit, false, { id: "site-visit-no" } %>&nbsp; No
+                <%= f.radio_button :site_visit_planned, false, { id: "site-visit-no" } %>&nbsp; No
               </div>
             </div>
           </div>
@@ -198,11 +200,13 @@
         <div class="col-md-6">
           <div class="panel panel-default">
             <div class="panel-body">
-              <%= label_tag "When is the site visit?" %><br />
-              <%= text_field_tag :site_visit_date, nil, { placeholder: "Select a site visit date.", class: "form-control", id: "site-visit-date-field" } %><br />
+              <%= f.fields_for :site_visit, @project.site_visit do |p| %>
+                <%= p.label "When is the site visit?" %><br />
+                <%= p.text_field :date, { placeholder: "Select a site visit date.", class: "form-control", id: "site-visit-date-field" } %><br />
 
-              <%= label_tag "Where is the site visit?" %><br />
-              <%= text_field_tag :site_visit_address, nil, { placeholder: "Begin typing the address", class: "form-control", id: "site-address-autocomplete-field" } %>
+                <%= p.label "Where is the site visit?" %><br />
+                <%= text_field_tag :site_visit_address, nil, { placeholder: "Begin typing the address", class: "form-control", id: "site-address-autocomplete-field" } %>
+              <% end %>
             </div>
           </div>
         </div>

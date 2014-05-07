@@ -1,0 +1,1 @@
+class SiteVisit < Meeting; end
