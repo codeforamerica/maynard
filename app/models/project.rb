@@ -71,15 +71,24 @@ class Project < ActiveRecord::Base
       cal.prodid = "-//Code for America + City of Atlanta//ATL Supply//EN"
     end
 
-    if self.preproposal_conference
+    if preproposal_conference
       pp_conf = RiCal::Component::Event.new
       pp_conf.summary = "Pre-proposal conference for #{ name }."
       pp_conf.description = "Pre-proposal conference for #{ name }."
       pp_conf.transp = "OPAQUE"
-      pp_conf.dtstamp = created_at.getutc
+      pp_conf.dtstamp = preproposal_conference.created_at.getutc
       pp_conf.dtstart = preproposal_conference.date.getutc
       cal.add_subcomponent(pp_conf)
-      #pp_conf.start =
+    end
+
+    if site_visit
+      site_v = RiCal::Component::Event.new
+      site_v.summary = "Site visit for #{ name }"
+      site_v.description = "Site visit for #{ name }."
+      site_v.transp = "OPAQUE"
+      site_v.dtstamp = site_visit.created_at.getutc
+      site_v.dtstart = site_visit.date.getutc
+      cal.add_subcomponent(site_v)
     end
 
     cal.to_s
