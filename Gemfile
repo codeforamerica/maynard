@@ -64,3 +64,6 @@ gem "pry-byebug", group: [:development, :test]
 gem "spring"
 
 gem "jquery-fileupload-rails"
+gem "geocoder"
+gem "awesome_print"
+gem "rubyredrick-ri_cal"
