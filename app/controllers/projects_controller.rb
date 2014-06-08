@@ -12,6 +12,15 @@ class ProjectsController < ApplicationController
   # GET /projects/1.json
   def show
     @questions = @project.questions.load
+
+    respond_to do |wants|
+      wants.ics do
+        File.open(Rails.root.to_s + "/public/#{ @project.id }.ics", 'w') { |f| f.write(@project.to_ics) }
+        render file: Rails.root.to_s + "/public/#{ @project.id }.ics"
+      end
+
+      wants.json
+    end
   end
 
   # GET /projects/new

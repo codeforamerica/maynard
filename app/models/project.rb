@@ -1,3 +1,5 @@
+require 'ri_cal'
+
 class Project < ActiveRecord::Base
   has_many :questions
 
@@ -62,6 +64,25 @@ class Project < ActiveRecord::Base
 
   def name_with_project_number
     "#{ self.project_number } - #{ self.name }" unless self.project_number.blank?
+  end
+
+  def to_ics
+    cal = RiCal.Calendar do |cal|
+      cal.prodid = "-//Code for America + City of Atlanta//ATL Supply//EN"
+    end
+
+    if self.preproposal_conference
+      pp_conf = RiCal::Component::Event.new
+      pp_conf.summary = "Pre-proposal conference for #{ name }."
+      pp_conf.description = "Pre-proposal conference for #{ name }."
+      pp_conf.transp = "OPAQUE"
+      pp_conf.dtstamp = created_at.getutc
+      pp_conf.dtstart = preproposal_conference.date.getutc
+      cal.add_subcomponent(pp_conf)
+      #pp_conf.start =
+    end
+
+    cal.to_s
   end
 
   private
