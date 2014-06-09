@@ -94,6 +94,44 @@ class Project < ActiveRecord::Base
     cal.to_s
   end
 
+  def to_json(options = {})
+    Jbuilder.encode do |json|
+      json.extract! self, :id, :project_number, :name, :created_at, :updated_at
+
+      if site_visit
+        json.site_visit self.site_visit, :id, :street_address, :street_address2, :city, :state, :zip, :latitude, :longitude, :date
+      end
+
+      if preproposal_conference
+        json.preproposal_conference self.preproposal_conference, :id, :street_address, :street_address2, :city, :state, :zip, :latitude, :longitude, :date
+      end
+
+      json.attachments self.documents do |document|
+        json.(document, :id, :created_at, :updated_at)
+        json.file_size document.document_file_size
+        json.filename document.document_file_name
+        json.content_type document.document_content_type
+      end
+
+      if contracting_officer
+        json.contracting_officer self.contracting_officer, :id, :first_name, :last_name, :email_address, :created_at, :updated_at
+      end
+
+      json.questions self.questions, :id, :body
+
+      json.plan_holders self.plan_holders do |planholder|
+        json.project planholder.project, :id, :name, :project_number, :closing_date, :question_closing_date
+
+        json.vendor do |json|
+          json.(planholder.company, :id, :name, :street_address, :street_address2, :city, :state, :zip, :phone_number)
+          json.person do |json|
+            json.(planholder.user, :id, :first_name, :last_name, :email)
+          end
+        end
+      end
+    end
+  end
+
   private
   def generate_mail_hash
     self.mail_hash = SecureRandom.hex(8)
