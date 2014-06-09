@@ -117,7 +117,7 @@ class Project < ActiveRecord::Base
         json.contracting_officer self.contracting_officer, :id, :first_name, :last_name, :email_address, :created_at, :updated_at
       end
 
-      json.questions self.questions, :id, :body
+      json.questions self.questions, :id, :body, :answers_count, :created_at, :updated_at
 
       json.plan_holders self.plan_holders do |planholder|
         json.project planholder.project, :id, :name, :project_number, :closing_date, :question_closing_date
